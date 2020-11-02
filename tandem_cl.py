@@ -45,7 +45,7 @@ def run_trivia():
 
         #Display numbers question as the first index of each array
         for index, answer in enumerate(answer_dict, 1):
-            print("%s: %s" % (index, answer[0]))
+            print(f"{index}: {answer[0]}")
 
         #Evaluate input of user using stdin and kicked them out after 3 fails.
         valid_input = False
@@ -57,9 +57,9 @@ def run_trivia():
                     print(f'Your final answer was: {answer_dict[user_input-1][0]}') # string answer (key)
                     valid_input = True
                 else:
-                    print("Answer must be between 1-4! Try again plz. Tries left: %s" % (MAX_INPUT_TRIES-USER_INPUT_TRIES))
+                    print(f'Answer must be between 1-4! Try again plz. Tries left: {MAX_INPUT_TRIES-USER_INPUT_TRIES}')
             except:
-                print("Answer must be between 1-4! Try again plz. Tries left: %s" % (MAX_INPUT_TRIES-USER_INPUT_TRIES))
+                print(f'Answer must be between 1-4! Try again plz. Tries left: {MAX_INPUT_TRIES-USER_INPUT_TRIES}')
 
             if USER_INPUT_TRIES == MAX_INPUT_TRIES:
                 print("\nSorry, you clearly can't follow instructions. Giving up!\n")
@@ -75,7 +75,7 @@ def run_trivia():
         else:
             for solution in answer_dict:
                 if solution[1]:
-                    print("\nWRONG! The correct answer is: %s\n" % solution[0])
+                    print("\nWRONG! The correct answer is: solution[0]\n")
                     break
 
         # Limit questions to 10
@@ -95,7 +95,7 @@ def run_trivia():
     print("\nThe suspense is killing me too ;)")
     time.sleep(2)
     if HIGH_SCORE > 0:
-        print("\nYour final score is: %s 🎉\n" % HIGH_SCORE)
+        print(f"\nYour final score is: {HIGH_SCORE} 🎉\n")
     else:
         print("\nYou really are not good at this game! 🤮\n")
 
