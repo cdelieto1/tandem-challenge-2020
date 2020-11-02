@@ -9,26 +9,27 @@ import time
 
 def run_trivia():
 
-    #SET GLOBAL VARIABLES AS DEFAULT COUNTERS
-    high_score = 0
-    number_answered_quest = 0
-    number_max_quest = 9 #Runs for 10 questions
-    user_input_tries = 0
-    max_input_tries = 2
+    #Set global variables as default counters
+    HIGH_SCORE = 0
+    NUMBER_ANSWERED_QUEST = 0
+    NUMBER_MAX_QUEST = 9 #Runs for 10 questions
+    USER_INPUT_TRIES = 0
+    MAX_INPUT_TRIES = 2
 
+    #Open JSON file and remove any extra lines.
     with open('trivia_questions.json', 'r') as file:
         data = file.read().replace('\n', '')
 
     trivia_data = json.loads(data)
     random.shuffle(trivia_data) # randomize trivia questions
 
-    #HEADER OF GAME
+    #Header of Game
     print("\nWELCOME TO THE TRIVIA GAME!\n")
     print("Read the question and answer by entering a number between 1-4.")
     print("Your final score will be displayed at the end.\n")
     print("READY, SET, GO!\n")
 
-    #INDEX AND PARSE EACH QUESTION INTO AN ARRAY W/ ANSWERS AS BOOLEANS
+    #Index and then parse each JSON into an array of K,V === Question, Boolean. 
     for index, data in enumerate(trivia_data):
         
         question = data["question"]
@@ -42,11 +43,13 @@ def run_trivia():
         answer_dict.append([data['correct'], True])
         random.shuffle(answer_dict) # randomize answers
 
+        #Display numbers question as the first index of each array
         for index, answer in enumerate(answer_dict, 1):
             print("%s: %s" % (index, answer[0]))
 
-        #Evaluate input of user using stdin.
+        #Evaluate input of user using stdin and kicked them out after 3 fails.
         valid_input = False
+
         while not valid_input:
             try:
                 user_input = int(input("\nYour answer is: "))
@@ -54,19 +57,20 @@ def run_trivia():
                     print(f'Your final answer was: {answer_dict[user_input-1][0]}') # string answer (key)
                     valid_input = True
                 else:
-                    print("Answer must be between 1-4! Try again plz. Tries left: %s" % (max_input_tries-user_input_tries))
+                    print("Answer must be between 1-4! Try again plz. Tries left: %s" % (MAX_INPUT_TRIES-USER_INPUT_TRIES))
             except:
-                print("Answer must be between 1-4! Try again plz. Tries left: %s" % (max_input_tries-user_input_tries))
+                print("Answer must be between 1-4! Try again plz. Tries left: %s" % (MAX_INPUT_TRIES-USER_INPUT_TRIES))
 
-            if user_input_tries == max_input_tries:
+            if USER_INPUT_TRIES == MAX_INPUT_TRIES:
                 print("\nSorry, you clearly can't follow instructions. Giving up!\n")
                 exit()
-            user_input_tries += 1
+            USER_INPUT_TRIES += 1
 
-        user_input_tries = 0
+        USER_INPUT_TRIES = 0
 
+        #If you pull a correct value, add 100 points. 
         if answer_dict[user_input-1][1]:
-            high_score += 100
+            HIGH_SCORE += 100
             print("\nCORRECT!\n")
         else:
             for solution in answer_dict:
@@ -74,9 +78,9 @@ def run_trivia():
                     print("\nWRONG! The correct answer is: %s\n" % solution[0])
                     break
 
-        # Limit questions
-        if number_answered_quest < number_max_quest:
-            number_answered_quest += 1
+        # Limit questions to 10
+        if NUMBER_ANSWERED_QUEST < NUMBER_MAX_QUEST:
+            NUMBER_ANSWERED_QUEST += 1
         else:
             break
 
@@ -90,13 +94,12 @@ def run_trivia():
     time.sleep(2)
     print("\nThe suspense is killing me too ;)")
     time.sleep(2)
-    if high_score > 0:
-        print("\nYour final score is: %s 🎉\n" % high_score)
+    if HIGH_SCORE > 0:
+        print("\nYour final score is: %s 🎉\n" % HIGH_SCORE)
     else:
         print("\nYou really are not good at this game! 🤮\n")
 
 
 if __name__ == '__main__':
-    # TODO: implement unit tests
     run_trivia()
 
